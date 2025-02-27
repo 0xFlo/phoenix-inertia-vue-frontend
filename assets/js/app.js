@@ -14,23 +14,24 @@
 //
 //     import "some-package"
 //
-
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
-import "phoenix_html"
+import "phoenix_html";
 
-import React from "react";
-import { createInertiaApp } from "@inertiajs/react";
-import { createRoot } from "react-dom/client";
+import { createApp, h } from "vue";
+import { createInertiaApp } from "@inertiajs/vue3";
 import axios from "axios";
 
 axios.defaults.xsrfHeaderName = "x-csrf-token";
 
 createInertiaApp({
-    resolve: async (name) => {
-        const module = await import(`./pages/${name}.jsx`);
-        return module;
-    },
-    setup({ App, el, props }) {
-        createRoot(el).render(<App {...props} />);
-    },
+  resolve: async (name) => {
+    const pages = import.meta.glob("./pages/**/*.vue");
+    const page = await pages[`./pages/${name}.vue`]();
+    return page.default;
+  },
+  setup({ el, App, props, plugin }) {
+    createApp({ render: () => h(App, props) })
+      .use(plugin)
+      .mount(el);
+  },
 });

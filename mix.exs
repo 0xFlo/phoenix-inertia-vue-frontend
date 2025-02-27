@@ -58,7 +58,7 @@ defmodule DemoApp.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.2"},
-      {:inertia, "~> 0.7"}
+      {:inertia, "~> 2.2.0"}
     ]
   end
 
