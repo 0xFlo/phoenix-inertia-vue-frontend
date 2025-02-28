@@ -24,16 +24,20 @@ defmodule DemoAppWeb.Router do
     pipe_through :browser
 
     get "/", DemoController, :index
-    get "/login", AuthController, :login_page
-    post "/login", AuthController, :login
+    get "/test", DemoController, :test
+
+    # Auth routes
     get "/register", AuthController, :register_page
     post "/register", AuthController, :register
-    delete "/logout", AuthController, :logout
+    get "/login", AuthController, :login_page
+    post "/login", AuthController, :login
+    post "/logout", AuthController, :logout
   end
 
   scope "/", DemoAppWeb do
     pipe_through [:browser, :authenticated]
 
+    # Protected routes
     get "/groceries", ShoppingController, :index
     get "/groceries/new", ShoppingController, :new
     post "/groceries", ShoppingController, :create

@@ -25,9 +25,7 @@ axios.defaults.xsrfHeaderName = "x-csrf-token";
 
 createInertiaApp({
   resolve: async (name) => {
-    const pages = import.meta.glob("./pages/**/*.vue");
-    const page = await pages[`./pages/${name}.vue`]();
-    return page.default;
+    return (await import(`./pages/${name}.vue`)).default;
   },
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h(App, props) })

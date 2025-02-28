@@ -4,58 +4,44 @@ import DefaultLayout from "../Layouts/DefaultLayout.vue";
 
 defineProps({
   groceries: Array,
-  current_user: Object,
+  auth: Object,
 });
 </script>
 
 <template>
-  <DefaultLayout :current_user="current_user">
-    <div>
-      <div class="px-4 sm:px-0">
-        <div class="md:flex md:items-center md:justify-between">
-          <div>
-            <h3 class="text-base font-semibold leading-7 text-white">
-              Shopping List
-            </h3>
-            <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-400">
-              We need this stuff
-            </p>
-          </div>
-          <div class="mt-4 flex md:ml-4 md:mt-0">
-            <Link
-              href="/groceries/new"
-              class="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              <svg
-                class="-ml-0.5 h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"
-                />
-              </svg>
-              Add item
-            </Link>
-          </div>
+  <DefaultLayout :auth="auth">
+    <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <h2 class="text-xl font-semibold text-white">Shopping List</h2>
+          <p class="text-gray-400 text-sm">We need this stuff</p>
         </div>
+        <Link
+          href="/groceries/new"
+          class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+        >
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+            />
+          </svg>
+          Add item
+        </Link>
       </div>
-      <ul role="list" class="divide-y divide-gray-700 mt-6">
+
+      <div v-if="groceries.length === 0" class="text-gray-400 text-center py-8">
+        No items in your shopping list. Add some!
+      </div>
+
+      <ul v-else class="divide-y divide-gray-700">
         <li
           v-for="item in groceries"
           :key="item.id"
-          class="flex justify-between gap-x-6 py-5"
+          class="py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between"
         >
-          <div class="flex min-w-0 gap-x-4">
-            <div class="min-w-0 flex-auto">
-              <p class="text-sm font-semibold leading-6 text-white">
-                {{ item.name }}
-              </p>
-              <p class="mt-1 truncate text-xs leading-5 text-gray-400">
-                {{ item.quantity }} needed
-              </p>
-            </div>
+          <div>
+            <h3 class="text-lg font-medium text-white">{{ item.name }}</h3>
+            <p class="text-gray-400">{{ item.quantity }} needed</p>
           </div>
         </li>
       </ul>

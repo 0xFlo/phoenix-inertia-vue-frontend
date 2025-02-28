@@ -1,6 +1,11 @@
 defmodule DemoAppWeb.DemoController do
   use DemoAppWeb, :controller
 
+  def test(conn, _params) do
+    conn
+    |> render_inertia("TestComponent")
+  end
+
   def index(conn, _params) do
     conn
     |> assign_prop(:place, "World")

@@ -3,7 +3,7 @@ import { Link, useForm } from "@inertiajs/vue3";
 import DefaultLayout from "../Layouts/DefaultLayout.vue";
 
 defineProps({
-  current_user: Object,
+  auth: Object,
 });
 
 const form = useForm({
@@ -17,78 +17,85 @@ function submit() {
 </script>
 
 <template>
-  <DefaultLayout :current_user="current_user">
-    <form @submit.prevent="submit">
-      <div class="space-y-12">
+  <DefaultLayout :auth="auth">
+    <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+      <div class="mb-6">
         <Link
           href="/groceries"
-          class="rounded bg-gray-700 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-gray-600"
+          class="inline-flex items-center text-indigo-400 hover:text-indigo-300"
         >
-          ← Back to List
+          <svg
+            class="w-4 h-4 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            />
+          </svg>
+          Back to List
         </Link>
-        <div class="pb-12">
-          <h2 class="text-base font-semibold leading-7 text-white">
-            New Grocery
-          </h2>
-          <p class="mt-1 text-sm leading-6 text-gray-400">
-            Create a record of a grocery item you need to buy.
-          </p>
+      </div>
 
-          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-4">
-              <label
-                for="name"
-                class="block text-sm font-medium leading-6 text-white"
-              >
-                Name
-              </label>
+      <h2 class="text-xl font-semibold text-white mb-2">New Grocery</h2>
+      <p class="text-gray-400 mb-6">
+        Create a record of a grocery item you need to buy.
+      </p>
 
-              <div class="mt-2">
-                <input
-                  type="text"
-                  v-model="form.name"
-                  id="name"
-                  class="block w-full rounded-md border-0 py-1.5 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+      <form @submit.prevent="submit">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div class="sm:col-span-2">
+            <label
+              for="name"
+              class="block text-sm font-medium text-gray-300 mb-1"
+            >
+              Name
+            </label>
+            <input
+              type="text"
+              v-model="form.name"
+              id="name"
+              class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+            <p v-if="form.errors.name" class="mt-1 text-sm text-red-500">
+              {{ form.errors.name }}
+            </p>
+          </div>
 
-              <p v-if="form.errors.name" class="mt-2 text-sm text-red-600">
-                {{ form.errors.name }}
-              </p>
-            </div>
-            <div class="sm:col-span-2">
-              <label
-                for="quantity"
-                class="block text-sm font-medium leading-6 text-white"
-              >
-                Quantity
-              </label>
-
-              <div class="mt-2">
-                <input
-                  type="number"
-                  v-model="form.quantity"
-                  id="quantity"
-                  class="block w-full rounded-md border-0 py-1.5 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-              <p v-if="form.errors.quantity" class="mt-2 text-sm text-red-600">
-                {{ form.errors.quantity }}
-              </p>
-            </div>
+          <div>
+            <label
+              for="quantity"
+              class="block text-sm font-medium text-gray-300 mb-1"
+            >
+              Quantity
+            </label>
+            <input
+              type="number"
+              v-model="form.quantity"
+              id="quantity"
+              class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              min="1"
+            />
+            <p v-if="form.errors.quantity" class="mt-1 text-sm text-red-500">
+              {{ form.errors.quantity }}
+            </p>
           </div>
         </div>
-      </div>
 
-      <div class="mt-6 flex items-center justify-end gap-x-6">
-        <button
-          type="submit"
-          :disabled="form.processing"
-          class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Submit
-        </button>
-      </div>
-    </form>
+        <div class="mt-8 flex justify-end">
+          <button
+            type="submit"
+            :disabled="form.processing"
+            class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50"
+          >
+            Save Item
+          </button>
+        </div>
+      </form>
+    </div>
   </DefaultLayout>
 </template>

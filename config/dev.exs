@@ -22,6 +22,7 @@ config :demo_app, DemoAppWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "aIy86Za4sXNb/DV3z67yt62Si2tnFaCjrhSoo7ukCtkzcOXjrJovW2wwMxWGNpos",
   watchers: [
+    npm: ["run", "watch", cd: Path.expand("../assets", __DIR__)],
     esbuild: {Esbuild, :install_and_run, [:demo_app, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:demo_app, ~w(--watch)]}
   ]
