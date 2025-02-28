@@ -1,4 +1,3 @@
-<!-- assets/js/pages/TestComponent.vue -->
 <template>
   <div class="p-8 bg-red-500 text-white text-center">
     <h1 class="text-2xl font-bold">Test Component</h1>

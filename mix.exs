@@ -75,15 +75,11 @@ defmodule DemoApp.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.setup": [
-        "tailwind.install --if-missing",
-        "esbuild.install --if-missing",
-        "cmd npm install --prefix assets"
-      ],
-      "assets.build": ["tailwind demo_app", "esbuild demo_app"],
+      "assets.setup": ["tailwind.install --if-missing", "cmd npm install --prefix assets"],
+      "assets.build": ["tailwind demo_app", "cmd npm run build --prefix assets"],
       "assets.deploy": [
         "tailwind demo_app --minify",
-        "esbuild demo_app --minify",
+        "cmd npm run build --prefix assets",
         "phx.digest"
       ]
     ]

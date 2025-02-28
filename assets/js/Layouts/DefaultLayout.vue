@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/vue3";
 
 defineProps({
   title: String,
-  auth: Object,
+  current_user: Object,
 });
 </script>
 
@@ -19,8 +19,8 @@ defineProps({
             >Groceries</Link
           >
 
-          <template v-if="auth && auth.user">
-            <span class="text-sm text-gray-400">{{ auth.user.name }}</span>
+          <template v-if="current_user">
+            <span class="text-sm text-gray-400">{{ current_user.name }}</span>
             <Link
               href="/logout"
               method="post"
