@@ -9,6 +9,11 @@ defmodule DemoAppWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug Inertia.Plug
+    plug DemoAppWeb.Plugs.Auth
+  end
+
+  pipeline :authenticated do
+    plug DemoAppWeb.Plugs.Auth, :authenticate_user
   end
 
   pipeline :api do
@@ -19,6 +24,16 @@ defmodule DemoAppWeb.Router do
     pipe_through :browser
 
     get "/", DemoController, :index
+    get "/login", AuthController, :login_page
+    post "/login", AuthController, :login
+    get "/register", AuthController, :register_page
+    post "/register", AuthController, :register
+    delete "/logout", AuthController, :logout
+  end
+
+  scope "/", DemoAppWeb do
+    pipe_through [:browser, :authenticated]
+
     get "/groceries", ShoppingController, :index
     get "/groceries/new", ShoppingController, :new
     post "/groceries", ShoppingController, :create

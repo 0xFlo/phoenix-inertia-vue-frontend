@@ -1,7 +1,13 @@
 <script setup>
-defineProps({
+import { Link } from "@inertiajs/vue3";
+import { computed } from "vue";
+
+const props = defineProps({
   title: String,
+  current_user: Object,
 });
+
+const isAuthenticated = computed(() => !!props.current_user);
 </script>
 
 <template>
@@ -9,7 +15,7 @@ defineProps({
     <header class="border-b border-gray-700 py-3">
       <div class="container mx-auto px-4 flex justify-between items-center">
         <div class="flex items-center space-x-4">
-          <div class="text-xl font-semibold">MyApp</div>
+          <Link href="/" class="text-xl font-semibold">MyApp</Link>
         </div>
         <div class="flex items-center space-x-4">
           <button class="p-2 rounded hover:bg-gray-700">
@@ -40,13 +46,29 @@ defineProps({
               />
             </svg>
           </button>
-          <div class="flex space-x-2">
-            <button
+          <div class="flex space-x-2" v-if="!isAuthenticated">
+            <Link
+              href="/register"
               class="bg-white text-black rounded px-3 py-1 text-sm font-medium"
             >
               Sign up
-            </button>
-            <button class="text-white text-sm">Sign in</button>
+            </Link>
+            <Link href="/login" class="text-white text-sm hover:underline">
+              Sign in
+            </Link>
+          </div>
+          <div v-else class="flex items-center space-x-4">
+            <span class="text-sm">{{
+              current_user.name || current_user.email
+            }}</span>
+            <Link
+              href="/logout"
+              method="delete"
+              as="button"
+              class="text-sm text-gray-300 hover:text-white"
+            >
+              Logout
+            </Link>
           </div>
         </div>
       </div>
