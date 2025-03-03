@@ -23,7 +23,8 @@ defmodule DemoAppWeb.Router do
   scope "/", DemoAppWeb do
     pipe_through :browser
 
-    get "/", DemoController, :index
+    get "/", LandingController, :index
+    get "/demo", DemoController, :index
     get "/test", DemoController, :test
 
     # Auth routes
